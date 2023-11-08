@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<style>
+    .container {
+        background-color: #024873;
+        color: #FFF; /* Set text color to white for better visibility */
+        padding: 20px; /* Add padding for better spacing */
+        position: relative; /* Set position relative for absolute positioning of the search button */
+    }
+
+    .card {
+        background-color: #0050A5;
+    }
+
+    .search-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+</style>
+
+<div class="container mt-4">
+    <h1 class="card-title display-4">{{ title }}</h1>
+    <a href="{% url 'product-create' %}"><button type="button" class="btn btn-primary btn-rounded">Add Product</button></a>
+
+   <br>
+<br>
+<a href="{% url 'send_email' %}"><button type="button" class="btn btn-outline-danger btn-rounded" data-mdb-ripple-color="dark">Send Email</button></a>
+
+   <br>
+<br>
+
+
+
+    {% if products %}
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" class="img-fluid rounded mx-auto d-block" alt="{{ product.name }}">
+                            {% endif %}
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">Unit Price: {{ product.unit_price }}</p>
+                            <a href="{{ product.get_absolute_url }}" class="btn btn-info btn-rounded">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% include "pagination.html" with page=page_obj %}
+    {% endif %}
+</div>
+{% endblock body_block %}

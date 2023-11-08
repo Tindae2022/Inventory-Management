@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<div class="card">
+    <h3>Total Products</h3>
+    <p>{{ total_products }}</p>
+</div>
+
+<div class="card">
+    <h3>Total Quantity on Hand</h3>
+    <p>{{ total_quantity_on_hand }}</p>
+</div>
+
+<div class="card">
+    <h3>Total Quantity Sold</h3>
+    <p>{{ total_quantity_sold }}</p>
+</div>
+
+<div class="card">
+    <h3>Total Revenue Generated</h3>
+    <p>${{ total_revenue_generated }}</p>
+</div>
+
+<div class="card">
+    <h3>Total Customers</h3>
+    <p>{{ total_customers }}</p>
+</div>
+
+{% endblock body_block %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container mt-4">
+    <h1 class="card-title display-4">{{ analysis }}</h1>
+    {% if analytic %}
+        <div class="row">
+            {% for a in analytic %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ a.product }}</h5>
+                            <p class="card-text">Unit Price: {{ a.revenue }}</p>
+                            <a href="{{ a.get_absolute_url }}" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% include "pagination.html" with page=page_obj %}
+        </div>
+    {% endif %}
+</div>
+{% endblock body_block %}

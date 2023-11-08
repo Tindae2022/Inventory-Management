@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block body_block %}
+   <h1 class="display-4 text-center mt-5">Add New Customer Record</h1>
+    <form method="POST" class="form">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.first_name.label_tag }}
+        {{ form.first_name }}
+    </div>
+    <div class="form-group">
+        {{ form.last_name.label_tag }}
+        {{ form.last_name }}
+    </div>
+    <div class="form-group">
+        {{ form.email.label_tag }}
+        {{ form.email }}
+    </div>
+    <div class="form-group">
+        {{ form.phone_number.label_tag }}
+        {{ form.phone_number }}
+    </div>
+    <div class="form-group">
+        {{ form.address.label_tag }}
+        {{ form.address }}
+    </div>
+     <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+{% endblock body_block %}

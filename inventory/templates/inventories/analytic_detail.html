@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block body_block %}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">{{ analysis }}</h1>
+            <h1 class="card-subtitle mb-2 text-muted">{{ analytic.product }}</h1>
+            <h2>Revenue: {{ analytic.revenue }}</h2>
+            <p class="card-text"><strong>Sales Count:</strong> {{ analytic.sales_count }}</p>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock body_block %}

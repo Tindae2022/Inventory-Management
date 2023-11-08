@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block head_block %}
+
+{% endblock head_block %}
+
+{% block body_block %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    /* Set a fixed height for the chart containers */
+    .chart-container {
+        height: 40%; /* Adjust the height as needed */
+    }
+
+    /* Add some margin for better spacing */
+    .chart-container {
+        margin-bottom: 20px;
+    }
+    .card {
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin: 10px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        display: inline-block;
+        width: 200px;
+        background-color: #C469AC;
+        color: #f4f4f4;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        justify-content: space-around;
+    }
+</style>
+    <div class="grid-container">
+    <div class="card">
+        <h3>Total Products</h3>
+        <p>{{ total_products }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Total Quantity on Hand</h3>
+        <p>{{ total_quantity_on_hand }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Total Quantity Sold</h3>
+        <p>{{ total_quantity_sold }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Total Revenue Generated</h3>
+        <p>le{{ total_revenue_generated }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Total Customers</h3>
+        <p>{{ total_customers }}</p>
+    </div>
+</div>
+<!-- Pie Chart -->
+<div class="chart-container">
+    <canvas id="pie-chart"></canvas>
+</div>
+
+<!-- Bar Chart -->
+<div class="chart-container">
+    <canvas id="bar-chart"></canvas>
+</div>
+
+<script>
+    // Pie Chart
+    var pieConfig = {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: {{ pie_data|safe }},
+                backgroundColor: [
+                    '#FF6384',
+                    '#36A2EB',
+                    '#FFCE56',
+                    '#181818',
+                    '#FF232A',
+                    '#F4F',
+                    '#F4F4F4',
+                    '#23c55e',
+                    '#dfe2e9',
+                    '#e4f602',
+                    '#efcbb3',
+                    '#bf957d',
+                    '#F4F',
+
+
+
+                    // Add more colors if needed
+                ],
+                label: 'Products'
+            }],
+            labels: {{ pie_labels|safe }}
+        },
+        options: {
+            responsive: true
+        }
+    };
+
+    // Bar Chart
+    var barConfig = {
+        type: 'bar',
+        data: {
+            datasets: [{
+                data: {{ bar_data|safe }},
+                backgroundColor: '#e84a69',
+
+                label: 'Products'
+            }],
+            labels: {{ bar_labels|safe }}
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'category',
+                    labels: {{ bar_labels|safe }},
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    };
+
+    // Render Charts
+    window.onload = function () {
+        var pieCtx = document.getElementById('pie-chart').getContext('2d');
+        var barCtx = document.getElementById('bar-chart').getContext('2d');
+
+        window.pieChart = new Chart(pieCtx, pieConfig);
+        window.barChart = new Chart(barCtx, barConfig);
+    };
+</script>
+{% endblock body_block %}

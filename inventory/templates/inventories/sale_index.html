@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container mt-4">
+    <h1 class="card-title display-4">{{ sale }}</h1>
+
+<a href="{% url 'sale-create' %}"> <button type="button" class="btn btn-primary">Add a Sale Record </button></a>
+    <br>
+    {% if sales %}
+        <div class="row">
+            {% for s in sales %}
+                <br>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ s.customer }}</h5>
+                            <p class="card-text">Product Name: {{ s.product }}</p>
+                            <a href="{{ s.get_absolute_url }}" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+        {% include "pagination.html" with page=page_obj %}
+        </div>
+    {% endif %}
+</div>
+{% endblock body_block %}

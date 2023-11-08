@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        .cta-btn {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 5px;
+        }
+
+        .cta-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+
+
+    <div class="container">
+        <h1>Welcome to My Website</h1>
+        <p>Explore amazing content and stay connected with us. Sign up for our newsletter!</p>
+        <a href="mailto:your-email@example.com" class="cta-btn">Send Email</a>
+    </div>
+
+
+{% endblock page_content %}

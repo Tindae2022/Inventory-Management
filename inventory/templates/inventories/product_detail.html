@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<style>
+    .container {
+        background-color: white;
+        color: #fff; /* Text color is set to white for better visibility on the red background */
+        padding: 20px; /* Add padding for better spacing */
+    }
+
+    .card {
+        background-color: #08243A; /* Set card background color to white */
+        color: #F98; /* Set card text color to black */
+        margin-top: 20px; /* Add margin to the top of the card */
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Align items to the top */
+    }
+
+    .card img {
+        width: 150px; /* Set image width */
+        height: 150px; /* Set image height */
+        object-fit: cover;
+        border-radius: 50%;
+        align-self: flex-end; /* Align image to the right end */
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">{{ title }}</h1>
+            <h1 class="card-subtitle mb-2 text-muted">{{ products.name }}</h1>
+            <h2>Description: {{ products.description }}</h2>
+            <p class="card-text"><strong>Quantity at Hand:</strong> {{ products.quantity_on_hand }}</p>
+            <p class="card-text"><strong>Unit Price:</strong> {{ products.unit_price }}</p>
+
+            <a href="{% url 'product-update' object.pk %}" class="btn btn-primary">Edit Product</a> <br>
+            <a href="{% url 'product-delete' object.pk %}"><button type="button" class="btn btn-danger">Delete Product</button></a>
+
+            <img src="{{ products.image.url }}" class="img-fluid rounded mx-auto d-block" alt="{{ product.name }}">
+        </div>
+    </div>
+</div>
+{% endblock body_block %}

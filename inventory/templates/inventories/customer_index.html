@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <style>
+        body {
+            background-color: #024873;
+            color: #FFF;
+        }
+
+        .container {
+            margin-top: 4rem;
+        }
+
+        .card-title,
+        .card-text {
+            color: #FFF;
+        }
+
+        .card {
+            background-color: #0050A5 !important; /* Add !important to ensure it takes precedence */
+        }
+    </style>
+{% endblock head %}
+
+{% block body_block %}
+    <div class="container mt-4">
+        <h1 class="card-title display-4">{{ customer }}</h1>
+        <br>
+        <a href="{% url 'customer-create' %}"> <button type="button" class="btn btn-outline-primary btn-rounded">Add a Customer Record</button></a>
+
+        {% if customers %}
+            <div class="row">
+                {% for c in customers %}
+                    <br>
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Name: {{ c.first_name }} {{ c.last_name }}</h5>
+                                <p class="card-text">Contact: {{ c.phone_number }}</p>
+                                <a href="{{ c.get_absolute_url }}" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
+                {% include "pagination.html" with page=page_obj %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock body_block %}

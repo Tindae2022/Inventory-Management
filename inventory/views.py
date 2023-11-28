@@ -240,7 +240,7 @@ class SendEmailView(FormView):
         message = form.cleaned_data['message']
         recipient = form.cleaned_data['recipient']
 
-        send_mail(subject, message, 'alusinelavalie80@gmail.com', [recipient])
+        send_mail(subject, message, 'youremail@gmail.com', [recipient])
         messages.success(self.request, 'Email sent successfully')
 
         return super().form_valid(form)

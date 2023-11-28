@@ -5,7 +5,7 @@ from .models import *
 # Register your models here.
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ["name", "unit_price", "quantity_on_hand"]
+    list_display = ["name", "unit_price", "quantity_on_hand", 'total_price']
     list_filter = ["quantity_on_hand", "name", "unit_price"]
     search_fields = ["name", "unit_price", "quantity_on_hand"]
     search_help_text = "Search for product by name, unit price or quantity on hand."

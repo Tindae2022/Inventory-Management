@@ -17,6 +17,16 @@
         top: 20px;
         right: 20px;
     }
+    .card-title{
+
+        font-family: Arial;
+        color: white;
+
+    }
+    .card-text{
+        color: white;
+
+    }
 </style>
 
 <div class="container mt-4">
@@ -44,6 +54,7 @@
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text">Unit Price: {{ product.unit_price }}</p>
                             <a href="{{ product.get_absolute_url }}" class="btn btn-info btn-rounded">Read More</a>
+
                         </div>
                     </div>
                 </div>

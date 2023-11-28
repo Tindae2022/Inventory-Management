@@ -2,49 +2,73 @@
 
 {% block head %}
     <style>
-        body {
-            background-color: #024873;
-            color: #FFF;
+        .add-customer-button {
+            margin-bottom: 10px;
         }
 
-        .container {
-            margin-top: 4rem;
-        }
+         .customer-table td {
+        background-color: red;
+        transition: background-color 0.3s ease;
+    }
 
-        .card-title,
-        .card-text {
-            color: #FFF;
-        }
-
-        .card {
-            background-color: #0050A5 !important; /* Add !important to ensure it takes precedence */
-        }
+    .customer-table td:hover {
+        background-color: #c0c0c0;
+    }
+    thead th {
+        background-color: #55608f;
+        color: white;
+    }
     </style>
 {% endblock head %}
 
 {% block body_block %}
+    <section class="hero is-info is-fullheight">
     <div class="container mt-4">
-        <h1 class="card-title display-4">{{ customer }}</h1>
+        <h1 class="title is-1">{{ customer }}</h1>
         <br>
-        <a href="{% url 'customer-create' %}"> <button type="button" class="btn btn-outline-primary btn-rounded">Add a Customer Record</button></a>
+        <a href="{% url 'customer-create' %}">
+            <button type="button" class="button is-primary is-rounded add-customer-button is-medium">Add a Customer Record</button>
+        </a>
+
 
         {% if customers %}
-            <div class="row">
-                {% for c in customers %}
-                    <br>
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Name: {{ c.first_name }} {{ c.last_name }}</h5>
-                                <p class="card-text">Contact: {{ c.phone_number }}</p>
-                                <a href="{{ c.get_absolute_url }}" class="btn btn-primary">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                {% endfor %}
-                {% include "pagination.html" with page=page_obj %}
-            </div>
+            <br>
+    <br>
+            <table class="table is-fullwidth customer-table" style="width: 800px; background-color: #0a082d; color: #fff; font-size: 20px; font-weight: 100">
+                <thead style="color: white">
+                    <tr style="background-color: white; font-family: Sans-Serif;">
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in customers %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ c.first_name }} {{ c.last_name }}</td>
+                            <td>{{ c.phone_number }}</td>
+                            <td>{{ c.email }}</td>
+                            <td>{{ c.address}}</td>
+                            <td>
+                             <div class="field is-grouped">
+    <p class="control">
+        <a href="{% url 'send_email' %}" class="button is-danger is-rounded is-small is-size-medium has-text-weight-bold">Send Email</a>
+    </p>
+    <p class="control">
+        <a href="{{ c.get_absolute_url }}" class="button is-success btn-rounded is-small is-size-medium has-text-weight-bold">Read More</a>
+    </p>
+</div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% include "pagination.html" with page=page_obj %}
         {% endif %}
     </div>
+    </section>
 {% endblock body_block %}

@@ -1,27 +1,51 @@
 {% extends 'base.html' %}
 {% block body_block %}
+    <style>
+    .standout-title {
+        font-weight: bold;
+        border-radius: 50px;
+        background-color: #024873;
+        color: #FFF;
+        padding: 10px;
+        text-align: center;
+    }
+</style>
 <div class="container mt-4">
-    <h1 class="card-title display-4">{{ sale }}</h1>
+    <h1 class="card-title display-4 standout-title">{{ sale }}</h1>
 
-<a href="{% url 'sale-create' %}"> <button type="button" class="btn btn-primary">Add a Sale Record </button></a>
+    <a href="{% url 'sale-create' %}">
+        <button type="button" class="btn btn-primary">Add a Sale Record</button>
+    </a>
     <br>
+
     {% if sales %}
-        <div class="row">
-            {% for s in sales %}
-                <br>
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ s.customer }}</h5>
-                            <p class="card-text">Product Name: {{ s.product }}</p>
-                            <a href="{{ s.get_absolute_url }}" class="btn btn-primary">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <br>
-            {% endfor %}
+        <table class="table is-bordered is-fullwidth">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Customer</th>
+                    <th>Product Name</th>
+                    <th>Quantity Sold</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in sales %}
+                    <tr>
+                     <td>{{ forloop.counter }}</td>
+                        <td>{{ s.customer }}</td>
+                        <td>{{ s.product }}</td>
+                        <td>{{ s.quantity_sold}}</td>
+
+                        <td>
+                            <a href="{{ s.get_absolute_url }}" class="button is-primary">Read More</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
         {% include "pagination.html" with page=page_obj %}
-        </div>
     {% endif %}
 </div>
 {% endblock body_block %}

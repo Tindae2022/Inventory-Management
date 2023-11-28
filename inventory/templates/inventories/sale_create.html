@@ -1,25 +1,30 @@
 {% extends 'base.html' %}
 {% block body_block %}
-   <h1 class="display-4 text-center mt-5">Add New Sale Record</h1>
-    <form method="POST" class="form">
-    {% csrf_token %}
-    <div class="form-group">
-        {{ form.product.label_tag }}
-        {{ form.product }}
-    </div>
-    <div class="form-group">
-        {{ form.quantity_sold.label_tag }}
-        {{ form.quantity_sold }}
-    </div>
-    <div class="form-group">
-        {{ form.sale_date.label_tag }}
-        {{ form.sale_date }}
-    </div>
-    <div class="form-group">
-        {{ form.customer.label_tag }}
-        {{ form.customer }}
-    </div>
-     <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+<div class="container mt-5">
+    <div class="card mx-auto p-4" style="max-width: 400px;">
+        <h1 class="display-4 text-center font-weight-bold">Add New Sale Record</h1>
 
+        <form method="POST" class="form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="label">Product:</label>
+                {{ form.product }}
+            </div>
+            <div class="form-group">
+                <label class="label">Quantity Sold:</label>
+                {{ form.quantity_sold }}
+            </div>
+            <div class="form-group">
+                {{ form.sale_date.label_tag }}
+                {{ form.sale_date }}
+            </div>
+            <div class="form-group">
+                <label class="label">Customer:</label>
+                {{ form.customer }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
 {% endblock body_block %}

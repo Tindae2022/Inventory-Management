@@ -17,12 +17,14 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.shortcuts import redirect
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("", include("inventory.urls")),
-    path('pages/', include('pages.urls')),
-    path('account/', include('account.urls')),
+                  path('admin/', admin.site.urls),
+                  path('account/', include('account.urls')),
+                  path("inventory/", include("inventory.urls")),
+                  path('pages/', include('pages.urls')),
+                  path('', lambda request: redirect('account/login/')),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

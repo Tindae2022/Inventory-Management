@@ -34,96 +34,92 @@
         gap: 20px;
         justify-content: space-around;
     }
+    .card p {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #fff;
+  font-weight: bold; /* Add this line to make the text bold */
+}
 </style>
-    <div class="grid-container">
-    <div class="card">
-        <h3>Total Products</h3>
-        <p>{{ total_products }}</p>
-    </div>
+    <div class="columns is-multiline">
+<div class="column is-12-tablet is-3-desktop is-3-widescreen">
+<div class="notification is-link has-text">
+    <p class="title is-4">Total Products</p>
+<p class="title is-1">{{ total_products }}</p>
 
-    <div class="card">
-        <h3>Total Quantity on Hand</h3>
-        <p>{{ total_quantity_on_hand }}</p>
-    </div>
-
-    <div class="card">
-        <h3>Total Quantity Sold</h3>
-        <p>{{ total_quantity_sold }}</p>
-    </div>
-
-    <div class="card">
-        <h3>Total Revenue Generated</h3>
-        <p>le{{ total_revenue_generated }}</p>
-    </div>
-
-    <div class="card">
-        <h3>Total Customers</h3>
-        <p>{{ total_customers }}</p>
-    </div>
 </div>
-<!-- Pie Chart -->
+</div>
+
+    <div class="column is-12-tablet is-3-desktop is-3-widescreen">
+<div class="notification is-info has-text">
+    <p class="title is-4">Total Quantity on Hand</p>
+<p class="title is-1">{{total_quantity_on_hand}}</p>
+
+</div>
+</div>
+
+   <div class="column is-12-tablet is-3-desktop is-3-widescreen">
+<div class="notification is-primary has-text">
+ <p class="title is-4">Total Quantity Sold</p>
+<p class="title is-1">{{ total_quantity_sold }}</p>
+
+
+</div>
+</div>
+
+    <div class="card">
+    <!-- Content -->
+    <p>Total Revenue Generated</p>
+    <p>Nle{{ total_revenue_generated }}</p>
+  </div>
+
+
+
+
+
+   <div class="column is-12-tablet is-6-desktop is-3-widescreen">
+<div class="notification is-primary has-text">
+    <p class="title is-4">Total Customers</p>
+<p class="title is-1">{{ total_customers}}</p>
+
+</div>
+</div>
+
+    </div>
+
+
+<!-- Pie Chart
 <div class="chart-container">
     <canvas id="pie-chart"></canvas>
 </div>
+-->
 
-<!-- Bar Chart -->
+<!-- Bar Chart
 <div class="chart-container">
     <canvas id="bar-chart"></canvas>
 </div>
+-->
+
+<canvas id="bar-chart" width="400" height="200"></canvas>
 
 <script>
-    // Pie Chart
-    var pieConfig = {
-        type: 'pie',
-        data: {
-            datasets: [{
-                data: {{ pie_data|safe }},
-                backgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56',
-                    '#181818',
-                    '#FF232A',
-                    '#F4F',
-                    '#F4F4F4',
-                    '#23c55e',
-                    '#dfe2e9',
-                    '#e4f602',
-                    '#efcbb3',
-                    '#bf957d',
-                    '#F4F',
-
-
-
-                    // Add more colors if needed
-                ],
-                label: 'Products'
-            }],
-            labels: {{ pie_labels|safe }}
-        },
-        options: {
-            responsive: true
-        }
-    };
-
-    // Bar Chart
+    // Bar Chart Configuration
     var barConfig = {
         type: 'bar',
         data: {
             datasets: [{
-                data: {{ bar_data|safe }},
-                backgroundColor: '#e84a69',
-
+                data: {{ bar_data|safe }},  // Replace with your dynamic data
+                backgroundColor: '#804080',
                 label: 'Products'
             }],
-            labels: {{ bar_labels|safe }}
+            labels: {{ bar_labels|safe }}  // Replace with your dynamic labels
         },
         options: {
             responsive: true,
             scales: {
                 x: {
                     type: 'category',
-                    labels: {{ bar_labels|safe }},
+                    labels: {{ bar_labels|safe }}  // Replace with your dynamic labels
                 },
                 y: {
                     beginAtZero: true
@@ -132,13 +128,12 @@
         }
     };
 
-    // Render Charts
+    // Render Bar Chart
     window.onload = function () {
-        var pieCtx = document.getElementById('pie-chart').getContext('2d');
         var barCtx = document.getElementById('bar-chart').getContext('2d');
-
-        window.pieChart = new Chart(pieCtx, pieConfig);
         window.barChart = new Chart(barCtx, barConfig);
     };
 </script>
+
+
 {% endblock body_block %}

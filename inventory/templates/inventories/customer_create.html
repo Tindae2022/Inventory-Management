@@ -1,29 +1,150 @@
 {% extends 'base.html' %}
-{% block body_block %}
-   <h1 class="display-4 text-center mt-5">Add New Customer Record</h1>
-    <form method="POST" class="form">
-    {% csrf_token %}
-    <div class="form-group">
-        {{ form.first_name.label_tag }}
-        {{ form.first_name }}
-    </div>
-    <div class="form-group">
-        {{ form.last_name.label_tag }}
-        {{ form.last_name }}
-    </div>
-    <div class="form-group">
-        {{ form.email.label_tag }}
-        {{ form.email }}
-    </div>
-    <div class="form-group">
-        {{ form.phone_number.label_tag }}
-        {{ form.phone_number }}
-    </div>
-    <div class="form-group">
-        {{ form.address.label_tag }}
-        {{ form.address }}
-    </div>
-     <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
 
+{% block body_block %}
+    <style>
+    .form-box {
+  max-width: 300px;
+  background: #f1f7fe;
+  overflow: hidden;
+  border-radius: 16px;
+  color: #010101;
+}
+
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 24px 24px;
+  gap: 16px;
+  text-align: center;
+}
+
+/*Form text*/
+.title {
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #666;
+}
+
+/*Inputs box*/
+.form-container {
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #fff;
+  margin: 1rem 0 .5rem;
+  width: 100%;
+}
+
+.input {
+  background: none;
+  border: 0;
+  outline: 0;
+  height: 40px;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  font-size: .9rem;
+  padding: 8px 15px;
+}
+
+.form-section {
+  padding: 16px;
+  font-size: .85rem;
+  background-color: #e0ecfb;
+  box-shadow: rgb(0 0 0 / 8%) 0 -1px;
+}
+
+.form-section a {
+  font-weight: bold;
+  color: #0066ff;
+  transition: color .3s ease;
+}
+
+.form-section a:hover {
+  color: #005ce6;
+  text-decoration: underline;
+}
+
+/*Button*/
+.form button {
+  background-color: #0066ff;
+  color: #fff;
+  border: 0;
+  border-radius: 24px;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .3s ease;
+}
+
+.form button:hover {
+  background-color: #005ce6;
+}
+    </style>
+
+    <div class="container mt-4">
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+                Add New Customer Record
+            </p>
+        </header>
+
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <form  method="post" class="form" action="{% url 'customer-create'  %}">
+                        {% csrf_token %}
+                        <div class="field">
+                            <label class="label">First Name</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Enter your first name" name="first_name">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Last Name</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Enter your last name" name="last_name">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Contact</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Enter your contact number" name="phone_number">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control">
+                                <input class="input" type="email" placeholder="Enter your email" name="email">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Address</label>
+                            <div class="control">
+                                <textarea class="textarea" placeholder="Enter your address" name="address"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-primary" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+    </div>
 {% endblock body_block %}

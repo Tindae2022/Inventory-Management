@@ -36,6 +36,8 @@
             <h2>Description: {{ products.description }}</h2>
             <p class="card-text"><strong>Quantity at Hand:</strong> {{ products.quantity_on_hand }}</p>
             <p class="card-text"><strong>Unit Price:</strong> {{ products.unit_price }}</p>
+            <p class="card-text"><strong>Total Price:</strong> {{ products.total_price }}</p>
+            <br>
 
             <a href="{% url 'product-update' object.pk %}" class="btn btn-primary">Edit Product</a> <br>
             <a href="{% url 'product-delete' object.pk %}"><button type="button" class="btn btn-danger">Delete Product</button></a>

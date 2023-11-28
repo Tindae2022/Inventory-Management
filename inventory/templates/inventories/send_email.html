@@ -1,10 +1,42 @@
 {% extends 'base.html' %}
 
 {% block body_block %}
-    <h2>Send an Email</h2>
-    <form method="post" action="{% url 'send_email' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Send Email</button>
-    </form>
+    <div class="container mt-4">
+        <h2 class="title is-2">Send an Email</h2>
+        <form method="post" action="{% url 'send_email' %}">
+            {% csrf_token %}
+
+            <div class="field">
+                <label class="label">Subject</label>
+                <div class="control">
+                    {{ form.subject }}
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Message</label>
+                <div class="control">
+                    {{ form.message }}
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Recipient</label>
+                <div class="control">
+                    {{ form.recipient }}
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button type="submit" class="button is-primary">
+                        <span class="icon">
+                            <i class="fas fa-paper-plane"></i>
+                        </span>
+                        <span>Send Email</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock body_block %}

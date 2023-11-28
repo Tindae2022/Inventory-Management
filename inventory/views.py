@@ -1,5 +1,8 @@
+from django.db.models import QuerySet
 from django.views.generic.edit import FormView
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+
+
 from inventory.models import Product, Sale, Analytics, Customer
 from django.urls import reverse_lazy
 from .forms import ProductForm, SaleForm, CustomerForm, EmailForm
@@ -7,18 +10,75 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 class ProductListView(ListView):
+    """
+    A view for displaying a paginated list of products.
+
+    Attributes:
+        model (Model): The Django model used for retrieving the list of products.
+        template_name (str): The name of the template to be rendered.
+        context_object_name (str): The name under which the list of products is available in the template context.
+        paginate_by (int): The number of products to display per page in pagination.
+
+    Methods:
+        get_queryset(self) -> QuerySet:
+            Returns the queryset of products to be displayed, using the custom method `get_all_stock()`.
+
+        get_context_data(self, *, object_list=None, **kwargs) -> dict:
+            Returns the context data for rendering the template. Adds the title 'List of Products' to the context.
+
+    Example:
+        To use this view, add the following URL pattern to your Django project's URLs:
+
+        ```python
+        path('products/', ProductListView.as_view(), name='product_list'),
+        ```
+
+    Note:
+        This view assumes the existence of a custom model method `get_all_stock()` in the `Product` model.
+
+    See Also:
+        `ListView` documentation: https://docs.djangoproject.com/en/stable/ref/class-based-views/generic-display/#listview
+    """
+
     model = Product
     template_name = 'inventories/product_index.html'
     context_object_name = 'products'
-    paginate_by = 5
+    paginate_by = 10
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
+        """
+        Returns the queryset of products to be displayed, using the custom method `get_all_stock()`.
+
+        Returns:
+            QuerySet: The queryset of products.
+
+        See Also:
+            `get_all_stock` method in the `Product` model.
+        """
         return Product.objects.get_all_stock()
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs) -> dict:
+        """
+        Returns the context data for rendering the template. Adds the title 'List of Products' to the context.
+
+        Args:
+            object_list (list, optional): A list of objects to be used as the object_list attribute.
+            kwargs (dict): Additional keyword arguments.
+
+        Returns:
+            dict: The context data.
+
+        Example:
+            ```python
+            context = super().get_context_data(object_list=my_object_list, additional_data='extra')
+            context['title'] = 'List of Products'
+            return context
+            ```
+        """
         context = super().get_context_data(**kwargs)
         context['title'] = 'List of Products'
         return context
@@ -58,7 +118,7 @@ class SaleListView(ListView):
     model = Sale
     template_name = 'inventories/sale_index.html'
     context_object_name = 'sales'
-    paginate_by = 5
+    paginate_by = 10
 
     def get_queryset(self):
         return Sale.objects.get_all_sales()
@@ -103,7 +163,7 @@ class CustomerListView(ListView):
     model = Customer
     template_name = 'inventories/customer_index.html'
     context_object_name = 'customers'
-    paginate_by = 5
+    paginate_by = 15
 
     def get_queryset(self):
         return Customer.objects.get_all_customers()
@@ -181,7 +241,7 @@ class SendEmailView(FormView):
         recipient = form.cleaned_data['recipient']
 
         send_mail(subject, message, 'alusinelavalie80@gmail.com', [recipient])
-        return HttpResponse('Email sent successfully!')
+        messages.success(self.request, 'Email sent successfully')
 
         return super().form_valid(form)
 

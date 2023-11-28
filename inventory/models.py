@@ -32,7 +32,20 @@ class Product(models.Model):
     description = models.TextField()
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity_on_hand = models.PositiveIntegerField()
+    total_price = models.DecimalField(max_digits=15, decimal_places=2, editable=False, default=0)
     image = models.FileField(upload_to='uploads/')
+
+    def save(self, *args, **kwargs):
+        self.total_price = self.unit_price * self.quantity_on_hand
+        super().save(*args, **kwargs)
+
+    def make_sale(self, quantity_sold):
+        if quantity_sold <= self.quantity_on_hand:
+            self.quantity_on_hand -= quantity_sold
+            self.save()
+            return True
+        else:
+            return False
 
     objects = ProductManager()
 
@@ -40,7 +53,7 @@ class Product(models.Model):
         ordering = ["name"]
 
     def __str__(self):
-        return f"{self.name} {self.unit_price}"
+        return f"{self.name}"
 
     def get_absolute_url(self):
         return reverse("product-detail", args=[str(self.id)])
@@ -99,6 +112,10 @@ class Sale(models.Model):
     quantity_sold = models.PositiveIntegerField()
     sale_date = models.DateTimeField(auto_now_add=True)
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.product.make_sale(self.quantity_sold)
 
     objects = SaleManager()
 

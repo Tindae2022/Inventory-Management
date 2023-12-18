@@ -2,10 +2,9 @@
 {% block body_block %}
 <style>
     .container {
-        background-color: #024873;
-        color: #FFF; /* Set text color to white for better visibility */
-        padding: 20px; /* Add padding for better spacing */
-        position: relative; /* Set position relative for absolute positioning of the search button */
+        color: #FFF;
+        padding: 20px;
+        position: relative;
     }
 
     .card {
@@ -17,30 +16,33 @@
         top: 20px;
         right: 20px;
     }
-    .card-title{
 
+    .card-title {
         font-family: Arial;
         color: white;
-
     }
-    .card-text{
-        color: white;
 
+    .card-text {
+        color: white;
+    }
+
+    .btn-container {
+        margin-bottom: 10px; /* Adjust the margin as needed */
     }
 </style>
 
 <div class="container mt-4">
-    <h1 class="card-title display-4">{{ title }}</h1>
-    <a href="{% url 'product-create' %}"><button type="button" class="btn btn-primary btn-rounded">Add Product</button></a>
-
-   <br>
-<br>
-<a href="{% url 'send_email' %}"><button type="button" class="btn btn-outline-danger btn-rounded" data-mdb-ripple-color="dark">Send Email</button></a>
-
-   <br>
-<br>
-
-
+    <div class="btn-container">
+        <a href="{% url 'product-create' %}">
+            <button type="button" class="btn btn-primary btn-rounded">Add Product</button>
+        </a>
+        <a href="{% url 'send_email' %}">
+            <button type="button" class="btn btn-outline-danger btn-rounded" data-mdb-ripple-color="dark">Send Email</button>
+        </a>
+        <a href="{% url 'products_pdf' %}">
+            <button type="button" class="btn btn-warning btn-rounded">Generate Report</button>
+        </a>
+    </div>
 
     {% if products %}
         <div class="row">
@@ -54,7 +56,6 @@
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text">Unit Price: {{ product.unit_price }}</p>
                             <a href="{{ product.get_absolute_url }}" class="btn btn-info btn-rounded">Read More</a>
-
                         </div>
                     </div>
                 </div>
@@ -63,4 +64,5 @@
         {% include "pagination.html" with page=page_obj %}
     {% endif %}
 </div>
+
 {% endblock body_block %}

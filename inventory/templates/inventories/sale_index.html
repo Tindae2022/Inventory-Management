@@ -26,6 +26,7 @@
                     <th>Customer</th>
                     <th>Product Name</th>
                     <th>Quantity Sold</th>
+                     <th>Cost</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -36,6 +37,8 @@
                         <td>{{ s.customer }}</td>
                         <td>{{ s.product }}</td>
                         <td>{{ s.quantity_sold}}</td>
+                        <td>{{ s.product.total_price}}</td>
+
 
                         <td>
                             <a href="{{ s.get_absolute_url }}" class="button is-primary">Read More</a>

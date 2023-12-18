@@ -8,8 +8,8 @@
     }
 
     .card {
-        background-color: #08243A; /* Set card background color to white */
-        color: #F98; /* Set card text color to black */
+        background-color: cornflowerblue; /* Set card background color to white */
+        color: white; /* Set card text color to black */
         margin-top: 20px; /* Add margin to the top of the card */
     }
 
@@ -17,6 +17,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start; /* Align items to the top */
+        font-size: 20px;
     }
 
     .card img {
@@ -32,7 +33,7 @@
     <div class="card">
         <div class="card-body">
             <h1 class="card-title">{{ title }}</h1>
-            <h1 class="card-subtitle mb-2 text-muted">{{ products.name }}</h1>
+            <h1 class="card-subtitle mb-2 text-bold ">{{ products.name }}</h1>
             <h2>Description: {{ products.description }}</h2>
             <p class="card-text"><strong>Quantity at Hand:</strong> {{ products.quantity_on_hand }}</p>
             <p class="card-text"><strong>Unit Price:</strong> {{ products.unit_price }}</p>

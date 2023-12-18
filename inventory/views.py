@@ -1,8 +1,7 @@
-from django.db.models import QuerySet
+from reportlab.pdfgen import canvas
+from django.db.models import QuerySet, Sum
 from django.views.generic.edit import FormView
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
-
 from inventory.models import Product, Sale, Analytics, Customer
 from django.urls import reverse_lazy
 from .forms import ProductForm, SaleForm, CustomerForm, EmailForm
@@ -11,6 +10,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views import View
 
 
 class ProductListView(ListView):
@@ -47,7 +47,7 @@ class ProductListView(ListView):
     model = Product
     template_name = 'inventories/product_index.html'
     context_object_name = 'products'
-    paginate_by = 10
+    paginate_by = 9
 
     def get_queryset(self) -> QuerySet:
         """
@@ -240,7 +240,7 @@ class SendEmailView(FormView):
         message = form.cleaned_data['message']
         recipient = form.cleaned_data['recipient']
 
-        send_mail(subject, message, 'youremail@gmail.com', [recipient])
+        send_mail(subject, message, '**************', [recipient])
         messages.success(self.request, 'Email sent successfully')
 
         return super().form_valid(form)
@@ -314,4 +314,96 @@ def analysis_view(request):
     }
 
     return render(request, 'inventories/analysis_dashboard.html', context)
+
+
+
+class ProductPDFView(View):
+    def get(self, request):
+        products = Product.objects.get_all_stock()
+
+        # calculate the totals
+
+        total_products = products.count()
+        total_quantity_on_hand = products.aggregate(Sum('quantity_on_hand'))['quantity_on_hand__sum']
+        total_price = products.aggregate(Sum('total_price'))['total_price__sum']
+
+        # Create a response object with PDF content type
+        response = HttpResponse(content_type='application/pdf')
+        response['Context-Disposition'] = 'filename=products_report.pdf'
+
+        # Create the pdf object
+        p = canvas.Canvas(response)
+
+        # Add content for each product to the pdf
+
+        for product in products:
+            p.drawString(100, 800, f"Product Name: {product.name}")
+            p.drawString(100, 760, f"Unit Price: {product.unit_price}")
+            p.drawString(100, 740, f"Quantity on Hand: {product.quantity_on_hand}")
+            p.drawString(100, 720, f"Total Price: {product.total_price}")
+            p.showPage()
+
+            # Add summary section at the end.
+        p.drawString(100, 600, f"Total Products: {total_products}")
+        p.drawString(100, 580, f"Total Quantity on Hand: {total_quantity_on_hand}")
+        p.drawString(100, 560, f"Total Price: {total_price}")
+
+        # Save the PDF to the buffer.
+        p.save()
+
+        return response
+        
 '''
+
+from django.http import HttpResponse
+from django.views import View
+from django.db.models import Sum
+from .models import Product
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+
+
+class ProductPDFView(View):
+    def get(self, request):
+        products = Product.objects.all()
+
+        # Calculate totals
+        total_products = products.count()
+        total_quantity_on_hand = products.aggregate(Sum('quantity_on_hand'))['quantity_on_hand__sum']
+        total_price = products.aggregate(Sum('total_price'))['total_price__sum']
+
+        # Create a response object with PDF content type.
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'filename=products_report.pdf'
+
+        # Create the PDF object.
+        pdf_buffer = response
+        doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
+
+        # Create a list to hold the table data.
+        data = [['Product Name', 'Unit Price', 'Quantity on Hand', 'Total Quantity Cost']]
+
+        # Add content for each product to the table.
+        for product in products:
+            data.append([product.name, product.unit_price, product.quantity_on_hand, product.total_price])
+
+        # Add summary row to the table.
+        data.append(['Total', '', total_quantity_on_hand, total_price])
+
+        # Create the table.
+        table = Table(data)
+
+        table.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                                   ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                                   ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                                   ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                                   ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                                   ('BACKGROUND', (0, 1), (-1, -2), colors.beige),
+                                   ('GRID', (0, 0), (-1, -1), 1, colors.black)]))
+
+        # Build the PDF.
+        doc.build([table])
+
+        return response

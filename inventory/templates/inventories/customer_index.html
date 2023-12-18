@@ -1,28 +1,11 @@
 {% extends 'base.html' %}
 
 {% block head %}
-    <style>
-        .add-customer-button {
-            margin-bottom: 10px;
-        }
 
-         .customer-table td {
-        background-color: red;
-        transition: background-color 0.3s ease;
-    }
-
-    .customer-table td:hover {
-        background-color: #c0c0c0;
-    }
-    thead th {
-        background-color: #55608f;
-        color: white;
-    }
-    </style>
 {% endblock head %}
 
 {% block body_block %}
-    <section class="hero is-info is-fullheight">
+    <section class="hero  is-fullheight">
     <div class="container mt-4">
         <h1 class="title is-1">{{ customer }}</h1>
         <br>
@@ -34,8 +17,8 @@
         {% if customers %}
             <br>
     <br>
-            <table class="table is-fullwidth customer-table" style="width: 800px; background-color: #0a082d; color: #fff; font-size: 20px; font-weight: 100">
-                <thead style="color: white">
+            <table class="table is-fullwidth customer-table">
+                <thead>
                     <tr style="background-color: white; font-family: Sans-Serif;">
                         <th>No.</th>
                         <th>Name</th>
@@ -56,10 +39,10 @@
                             <td>
                              <div class="field is-grouped">
     <p class="control">
-        <a href="{% url 'send_email' %}" class="button is-danger is-rounded is-small is-size-medium has-text-weight-bold">Send Email</a>
+        <a href="{% url 'send_email' %}" class="button is-danger is-rounded is-medium is-size-medium has-text-weight-bold">Send Email</a>
     </p>
     <p class="control">
-        <a href="{{ c.get_absolute_url }}" class="button is-success btn-rounded is-small is-size-medium has-text-weight-bold">Read More</a>
+        <a href="{{ c.get_absolute_url }}" class="button is-success btn-rounded is-medium is-size-medium has-text-weight-bold">Read More</a>
     </p>
 </div>
                             </td>

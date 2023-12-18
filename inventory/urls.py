@@ -41,5 +41,5 @@ urlpatterns = [
 
     path('analysis/pie_chart/', views.chart_view, name='pie_chart'),
 
-    # path('analysis/dashboard/', views.analysis_view, name='analysis-dashboard'),
+    path('products/pdf/', views.ProductPDFView.as_view(), name='products_pdf'),
 ]
